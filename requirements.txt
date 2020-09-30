@@ -1,2 +1,4 @@
 docker-compose
 flask
+flask-SQLAlchemy
+psycopg2-binary

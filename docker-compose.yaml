@@ -25,6 +25,23 @@ services:
                     - flask_webapp
         ports:
             - 8080:5000        
+
+    db:
+        image: postgres
+        restart: always
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_DB=D_db
+        volumes:
+            - ./sql-scripts/:/docker-entrypoint-initdb.d/
+        networks:
+            docker-network:
+                aliases:
+                    - alias_postgres
+
+        ports:
+            - 5432:5432
   
 
 networks:
