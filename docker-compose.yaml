@@ -1,31 +1,5 @@
 version: '3.1'
 services:
-    nginx:
-        image: nginx:latest
-        container_name: nginx_reverseproxy
-        volumes:
-            - ./nginx.conf:/etc/nginx/conf.d/default.conf
-        networks:
-            - docker-network
-        ports:
-            - 80:80    
-
-    app_flask:
-        build:
-            context: ./
-            dockerfile: Dockerfile
-        image: flask:v1
-        container_name: ContainerName_app_webapp    
-        volumes:
-            - ./:/cycle-class-generator/
-        command: python3 /cycle-class-generator/application/app.py
-        networks:
-            docker-network:
-                aliases:
-                    - flask_webapp
-        ports:
-            - 8080:5000        
-
     db:
         image: postgres
         restart: always
@@ -39,10 +13,35 @@ services:
             docker-network:
                 aliases:
                     - alias_postgres
-
         ports:
             - 5432:5432
-  
+            
+    nginx:
+        image: nginx:latest
+        container_name: nginx_reverseproxy
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - docker-network
+        ports:
+            - 80:80         
+
+    app_flask:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: flask:v1
+        restart: always
+        container_name: ContainerName_app_webapp    
+        volumes:
+            - ./:/cycle-class-generator/
+        command: python3 /cycle-class-generator/application/app.py
+        networks:
+            docker-network:
+                aliases:
+                    - flask_webapp
+        ports:
+            - 8080:5000  
 
 networks:
     docker-network:
