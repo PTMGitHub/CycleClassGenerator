@@ -1,13 +1,13 @@
 CREATE TABLE track_designs (
 index serial PRIMARY KEY,
-name varchar(255),
+title varchar(255),
 artist varchar(255),
-duration time,
+duration varchar(8),
 aim varchar(255),
 instructions text
 );
 
-INSERT INTO track_designs (name,artist,duration,aim,instructions)
+INSERT INTO track_designs (title,artist,duration,aim,instructions)
 	VALUES 
 		('2 Times ','Ann Lee','00:03:51','Big Seated climb','Up res everytime it says ''2 Times'' (12 in total) 2 2 1 2 2 2 1 (hold for final 36 s)'),
 		('Affirmation','Savage Garden','00:04:56','Flat with Sprints','seated. 1:19-1:42 (20s). 2:16-2:39(20s). Catch breath. 3:34-end (1:30)     '),
