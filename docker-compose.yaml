@@ -1,5 +1,21 @@
 version: '3.1'
 services:
+    db:
+        image: postgres
+        restart: always
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_DB=D_db
+        volumes:
+            - ./sql-scripts/:/docker-entrypoint-initdb.d/
+        networks:
+            docker-network:
+                aliases:
+                    - alias_postgres
+        ports:
+            - 5432:5432
+            
     nginx:
         image: nginx:latest
         container_name: nginx_reverseproxy
@@ -8,13 +24,14 @@ services:
         networks:
             - docker-network
         ports:
-            - 80:80    
+            - 80:80         
 
     app_flask:
         build:
             context: ./
             dockerfile: Dockerfile
         image: flask:v1
+        restart: always
         container_name: ContainerName_app_webapp    
         volumes:
             - ./:/cycle-class-generator/
@@ -24,8 +41,7 @@ services:
                 aliases:
                     - flask_webapp
         ports:
-            - 8080:5000        
-  
+            - 8080:5000  
 
 networks:
     docker-network:
